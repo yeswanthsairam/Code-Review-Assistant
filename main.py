@@ -1,6 +1,9 @@
 import argparse
 import json
+import os
 from pathlib import Path
+
+from openai import OpenAI
 
 
 def load_template(path: Path) -> str:
@@ -18,14 +21,40 @@ def build_prompt(template: str, language: str, code: str) -> str:
     )
 
 
+def review_code_with_openai(prompt: str, model: str) -> str:
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise SystemExit(
+            "OPENAI_API_KEY is not set. Export it before running this script."
+        )
+
+    client = OpenAI(api_key=api_key)
+    response = client.responses.create(
+        model=model,
+        input=prompt,
+        temperature=0.3,
+    )
+    return response.output_text.strip()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Build a final prompt for the Code Review Assistant challenge."
+        description="Run a code review assistant using the OpenAI API."
     )
     parser.add_argument(
         "--snippet",
         default="simple_python",
         help="Snippet key from sample_snippets.json",
+    )
+    parser.add_argument(
+        "--model",
+        default="gpt-4o-mini",
+        help="OpenAI model name to use",
+    )
+    parser.add_argument(
+        "--print-prompt",
+        action="store_true",
+        help="Print the generated prompt before sending it",
     )
     args = parser.parse_args()
 
@@ -43,8 +72,16 @@ def main() -> None:
         )
 
     item = snippets[args.snippet]
-    final_prompt = build_prompt(template, item["language"], item["code"])
-    print(final_prompt)
+    prompt = build_prompt(template, item["language"], item["code"])
+
+    if args.print_prompt:
+        print("=== Prompt Sent To Model ===")
+        print(prompt)
+        print("=== End Prompt ===\n")
+
+    print("Running review with OpenAI...\n")
+    review = review_code_with_openai(prompt, args.model)
+    print(review)
 
 
 if __name__ == "__main__":

@@ -4,18 +4,23 @@ This submission implements **Challenge 3: Code Review Assistant**.
 
 ## What this contains
 
-- `code_review_assistant_prompt.md` - the main prompt to review short code snippets.
-- `sample_snippets.json` - self-created dummy snippets for demonstration.
-- `main.py` - small utility that builds a final, ready-to-paste prompt.
+- `main.py` - real code review assistant script that calls OpenAI API.
+- `code_review_assistant_prompt.md` - reusable review prompt template.
+- `sample_snippets.json` - self-created dummy snippets for testing.
+- `requirements.txt` - Python dependency list.
 - `SUBMISSION_SUMMARY.md` - 100-word summary of the idea and approach.
 
 ## How to use
 
-1. Run:
+1. Install dependencies:
+   - `python3 -m pip install -r requirements.txt`
+2. Set your OpenAI API key:
+   - `export OPENAI_API_KEY="your_api_key_here"`
+3. Run:
    - `python3 main.py --snippet simple_python`
-2. Copy the generated prompt output.
-3. Paste it into ChatGPT (or another LLM).
-4. Capture the response as screenshot evidence for submission.
+4. Optional:
+   - `python3 main.py --snippet javascript_loop --model gpt-4o-mini --print-prompt`
+5. Capture output screenshots for submission.
 
 ## Submission checklist mapping
 

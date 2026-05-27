@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 from openai import OpenAI
 
 
@@ -25,7 +26,7 @@ def review_code_with_openai(prompt: str, model: str) -> str:
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise SystemExit(
-            "OPENAI_API_KEY is not set. Export it before running this script."
+            "OPENAI_API_KEY is not set. Add it in .env or export it before running."
         )
 
     client = OpenAI(api_key=api_key)
@@ -38,6 +39,8 @@ def review_code_with_openai(prompt: str, model: str) -> str:
 
 
 def main() -> None:
+    load_dotenv()
+
     parser = argparse.ArgumentParser(
         description="Run a code review assistant using the OpenAI API."
     )

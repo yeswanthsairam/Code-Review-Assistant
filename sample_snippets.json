@@ -1,0 +1,14 @@
+{
+  "simple_python": {
+    "language": "python",
+    "code": "def calc(a,b):\n    total=a+b\n    if total>10:\n        print('big')\n    return total"
+  },
+  "javascript_loop": {
+    "language": "javascript",
+    "code": "function getUserNames(users){\nlet names=[];\nfor(let i=0;i<users.length;i++){\n if(users[i] && users[i].name){names.push(users[i].name)}\n}\nreturn names\n}"
+  },
+  "java_method": {
+    "language": "java",
+    "code": "public int process(List<Integer> nums){\nint x=0;\nfor(Integer n: nums){\n if(n != null){\n  x += n;\n }\n}\nreturn x;\n}"
+  }
+}
